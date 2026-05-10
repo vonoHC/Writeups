@@ -1,6 +1,7 @@
 # 🛡️ Writeups de CTFs y Máquinas Vulnerables
 
-Saludos! Este es un repositorio dedicado a la documentación de Writeups sobre máquinas vulnerables y laboratorios de plataformas como HackTheBox, TryHackMe y VulnHub.
+Saludos! 
+Este es un repositorio dedicado a la documentación de Writeups sobre máquinas vulnerables y laboratorios de plataformas como HackTheBox, TryHackMe y VulnHub.
 
 El objetivo de este proyecto es practicar, reforzar y evidenciar conocimientos relacionados con:
 
