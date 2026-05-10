@@ -47,13 +47,13 @@ Navegando un poco por la página, vemos que está la pestaña llamada **Security
 
 Ahora descargamos el archivo **.pcap** para ver si podemos hallar algo interesante dentro de los paquetes del tráfico de red almacenado en él:
 
-![Mmm, qué raro, dentro del archivo **.pcap** no hay nada.] ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/7.png)
+![Mmm, qué raro, dentro del archivo **.pcap** no hay nada.](https://github.com/vonoHC/Writeups/blob/main/Cap%20-%20HackTheBox/Capturas/7.png)
 
 Mmm, qué raro, dentro del archivo **.pcap** no hay nada. 
 
 Volvamos a la página web y sigamos investigando.
 
-![Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parámetros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**. ](https://github.com/vonoHC/Writeups/blob/main/Cap%20-%20HackTheBox/Capturas/8.png)
+![Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parámetros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**.](https://github.com/vonoHC/Writeups/blob/main/Cap%20-%20HackTheBox/Capturas/8.png)
 
 Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parámetros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**. 
 
