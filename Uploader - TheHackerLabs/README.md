@@ -4,7 +4,7 @@ Uploader es una máquina de dificultad Easy de The Hacker Labs enfocada en técn
 
 ---
 
-### **Reconocimiento**
+## **Reconocimiento**
 
 Como primer paso obtenemos la **IP** de la máquina objetivo y le realizamos un **ping,** de esta forma sabremos si está activa.
 
@@ -24,7 +24,7 @@ Vemos que es una página de subida de archivos, vamos a explorar:
 
 ---
 
-### Explotación
+## Explotación
 
 Encontramos un formulario de subida de archivos, intentemos subir una reverse shell:
 
@@ -98,7 +98,7 @@ En este punto podremos obtener la **user flag**:
 
 ---
 
-### Post-Explotación/Escalada de privilegios
+## Post-Explotación/Escalada de privilegios
 
 Llegó el momento de elevar privilegios, vamos a iniciar listando los comando que el usuario puede ejecutar como sudo con: `sudo -l`
 
@@ -111,5 +111,6 @@ Encontramos el comando **tar**. Haciendo una breve búsqueda en gtfobins hallamo
 Ejecutando los comando mostrados ganaremos una shell como **root** y tendremos acceso a la **root flag**:
 
 ![25. rootflag.png](https://github.com/vonoHC/Writeups/blob/main/Uploader%20-%20TheHackerLabs/Capturas/24.png)
-
+![Pwned.png](https://github.com/vonoHC/Writeups/blob/main/Uploader%20-%20TheHackerLabs/Capturas/25.png)
 **¡Y con esto habremos hecho nuestro el sistema de la máquina Uploader de The Hacker Labs!**
+
