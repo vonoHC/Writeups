@@ -1,8 +1,13 @@
-En este Walkthrough se estará explicando cómo resolver la máquina Facts de HTB
+# Introducción
+Facts es una máquina de dificultad Easy que presenta un entorno diverso, integrando Camaleon CMS, servicios de almacenamiento de objetos (MinIO/S3) y una escalada de privilegios basada en herramientas de gestión de configuración. El reto requiere un flujo de trabajo meticuloso, desde la explotación de vulnerabilidades web hasta el crackeo de llaves criptográficas.
+
+La intrusión inicial se logra creando una cuenta propia en el dashboard y abusando de una vulnerabilidad de Parameter Injection (CVE-2025-2304) en Camaleon CMS. Esta falla permite elevar los privilegios de una cuenta estándar a administrador mediante la manipulación de los parámetros de cambio de contraseña.
+
+Una vez con acceso administrativo, la fase de post-explotación web revela credenciales de AWS S3. Utilizando awscli para interactuar con una instancia local de MinIO, se logra extraer una llave privada SSH protegida por contraseña. Tras un ataque de fuerza bruta con John the Ripper, se obtiene acceso al sistema. Finalmente, la escalada de privilegios a root se realiza mediante el abuso de permisos de Sudo sobre el binario Facter, aprovechando su capacidad para cargar scripts de Ruby personalizados desde directorios arbitrarios.
 
 ---
 
-### **Reconocimiento**
+## **Reconocimiento**
 
 Como primer paso, realizamos  un escaneo **Nmap** para enumerar los puertos abiertos y los servicios en ejecución dentro de la máquina y obtenemos el siguiente resultado:
 
@@ -68,7 +73,7 @@ $ sudo echo "10.129.35.98 facts.htb" >> /etc/hosts
 
 Una vez accedemos a la página, vemos que no hay nada interesante:
 
-![image.png](attachment:34c09b92-30ee-4e5c-9ec2-f132c979d670:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/1.png)
 
 Hagamos una enumeración de directorios con Ffuf para ver qué hallamos:
 
@@ -111,15 +116,15 @@ captcha                 [Status: 200, Size: 1086, Words: 5, Lines: 7, Duration: 
 
 Vemos que existe el directorio /admin, y que al dirigirnos a él nos encontramos con un panel de inicio de sesión, el cual nos permite crear una nueva cuenta y posteriormente iniciar sesión:
 
-![image.png](attachment:55546652-dee8-40f7-b089-44488f244cae:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/2.png)
 
-![image.png](attachment:027c2bcf-5fd0-4fec-85ee-0dbfa7789646:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/3.png)
 
-![image.png](attachment:8e1dc04d-5df1-4a89-941f-f40510fb708e:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/4.png)
 
 ---
 
-### Explotación
+## Explotación
 
 Al probar si el servidor es vulnerable a Local File Inclusion (LFI) ingresando la siguiente solicitud en la barra de búsqueda:
 
@@ -175,11 +180,11 @@ Aquí están los pasos para explotar esta vulnerabilidad de forma manual:
 
 1. Dirigirse a la sección de perfil de cuenta y presionar el botón para cambiar la contraseña:
 
-![image.png](attachment:8c40e336-22b8-4f4a-a279-6126868efc4d:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/5.png)
 
 1. Interceptar la solicitud del cambio de contraseña con Buirp Suite:
 
-![image.png](attachment:90408272-bc06-40d3-8d31-8011da158b6b:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/6.png)
 
 1. Agregar el siguiente parámetro al final de la solicitud POST:
 
@@ -187,18 +192,18 @@ Aquí están los pasos para explotar esta vulnerabilidad de forma manual:
 &password[role]=admin
 ```
 
-![image.png](attachment:adadd0bf-3c74-4b88-aff5-11cd8858b8e8:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/7.png)
 
 Una vez hayamos reenviado la solicitud y refrescado la página, nuestra cuenta tendrá el rol de admin:
 
-![image.png](attachment:ba04ce63-8a7c-4b54-8690-ca148805a3eb:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/8.png)
 
 Navegando más como administrador a través de la web, encontramos información de acceso para AWS S3.
 
 > Amazon S3 (Simple Storage Service) es un servicio de almacenamiento de objetos en la nube, gestionado por AWS, diseñado para guardar cualquier cantidad de datos de forma segura, duradera y escalable.
 > 
 
-![image.png](attachment:768e711f-5e32-4aab-ac2c-c1af1ffe711f:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/9.png)
 
 Vamos a hacer uso de la herramienta oficial aws cli para acceder a esta instancia de S3 en el objetivo:
 
@@ -316,7 +321,7 @@ La user flag se encuentra en /home/william.
 
 ---
 
-### Post-Explotación/Escalada de privilegios
+## Post-Explotación/Escalada de privilegios
 
 Al listar los comandos ejecutables como sudo, encontramos facter:
 
@@ -334,9 +339,9 @@ User trivia may run the following commands on facts:
 > [Facter](https://www.google.com/search?q=Facter&oq=que+es+facter&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIGCAEQRRg5MgkIAhAAGA0YgAQyCQgDEAAYDRiABDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMgkICBAAGA0YgAQyCQgJEAAYDRiABNIBCDI1NThqMGo5qAIGsAIB8QVEe02FLkR5zg&sourceid=chrome&ie=UTF-8&mstk=AUtExfAQegddhpaUuwrJqw-h_bnZkAC9xiijXl-lKLid3guJXK-FVI0Gu2MtIvzm0ckNpA0TiS1WZKadCZJCWdWZ4zvjMjom5JiElmFA7Xg4FIVwXnn0g3TAvG6n04C6shAPsA-aUOimSDOuPvNibwb2HG0er8otYMoUru4d8_q9_r0Y8JY&csui=3&ved=2ahUKEwjKlYKhmoSUAxVzQTABHUR5DEwQgK4QegQIARAB) es una **herramienta de línea de comandos multiplataforma, escrita en Ruby y desarrollada por [Puppet](https://github.com/puppetlabs/facter), que recopila información detallada del sistema (llamados "facts") sobre hardware, red, sistema operativo y configuración**.
 > 
 
-Haciendo una búsqueda en GTFOBins, vemos que una función de facter permite ejecutar el primer archivo .rb dentro del directorio que le indiquemos. Esto lo podríamos usar para obtener una shell como root:
+Haciendo una búsqueda en [GTFOBins](https://gtfobins.org/), vemos que una función de facter permite ejecutar el primer archivo .rb dentro del directorio que le indiquemos. Esto lo podríamos usar para obtener una shell como root:
 
-![image.png](attachment:c8be12e0-a1c8-4753-92aa-04bfe825541e:image.png)
+![image.png](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/10.png)
 
 Sabiendo esto, para escalar privilegios lo primero que haremos será crear un script en Ruby dentro del directorio personal de trivia, el cual contendrá el comando que nos dará la terminal como root:
 
@@ -354,3 +359,4 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 
 **¡Y con esto habremos hecho nuestro el sistema de Facts!**
+![Pwned!](https://github.com/vonoHC/Writeups/tree/main/HackTheBox/Sau/Capturas/11.png)
