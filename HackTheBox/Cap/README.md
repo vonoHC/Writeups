@@ -1,4 +1,4 @@
-En este Tutorial se estará explicando como resolver la máquina **Cap** de **HTB**.
+En este tutorial se explicará cómo resolver la máquina **Cap** de **HTB**.
 
 ---
 
@@ -44,15 +44,15 @@ Navegando un poco por la página, vemos que está la pestaña llamada **Security
 
 Ahora descargamos el archivo **.pcap** para ver si podemos hallar algo interesante dentro de los paquetes del tráfico de red almacenado en él:
 
-![Mmm, qué raro, dentro del archivo **.pcap** no hay nada. ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/7.png)
+![Mmm, qué raro, dentro del archivo **.pcap** no hay nada.] ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/7.png)
 
 Mmm, qué raro, dentro del archivo **.pcap** no hay nada. 
 
 Volvamos a la página web y sigamos investigando.
 
-![Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parametros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**. ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/8.png)
+![Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parámetros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**. ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/8.png)
 
-Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parametros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**. 
+Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en la URL aparecen nuevos parámetros: /data/9. Y tal parece que el **9** es un identificador de contenido para los archivos **.pcap**. 
 
 ---
 
@@ -64,9 +64,9 @@ Ahora intentemos manipular el identificador ****en la URL colocando distintos n�
 
 Cambiamos el **id** **9** por **0** y ahora se nos presenta un archivo **.pcap** con mayor número de paquetes, vamos a descargarlo y a revisarlo: 
 
-![Wow! En este sí se presentan mucha información sobre los paquetes. ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/10.png)
+![Wow! En este sí se presenta mucha información sobre los paquetes. ](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/10.png)
 
-Wow! En este sí se presentan mucha información sobre los paquetes. 
+Wow! En este sí se presenta mucha información sobre los paquetes. 
 
 Veamos si en alguno de estos podemos hallar información importante:
 
@@ -74,7 +74,7 @@ Veamos si en alguno de estos podemos hallar información importante:
 
 ¡Bingo! Hallamos dos paquetes que parecen tener credenciales de inicio de sesión a **FTP**: el **No. 36** nos proporciona el nombre de usuario y el **No. 40** la contraseña.  
 
-Con estas credenciales podemos inciar sesion a traves de ssh: 
+Con estas credenciales podemos iniciar sesión a través de ssh: 
 
 ![1- ssh.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/12.png)
 
@@ -96,11 +96,11 @@ getcap -r / 2>/dev/null
 
 ![4- getcap.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/15.png)
 
-Encontramos el binario de **python** el cual tiene la capacidad especial **setuid**, la cual permite ejecutarlo con los permisos de **root,** por lo que podremos conseguir una Shell como **root** a través de **python** con unos pocos comandos.
+Encontramos el binario de **python**, el cual tiene la capacidad especial **setuid**, la cual permite ejecutarlo con los permisos de **root**, por lo que podremos conseguir una shell como **root** a través de **python** con unos pocos comandos.
 
 Ahora vamos a ejecutar **python** y cambiaremos el **suid** a **0**, lo cual es equivalente a **root**:
 
-![7- Verificacion de escalada exitosa.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/16.png)
+![7- Verificación de escalada exitosa.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/16.png)
 
 Solo nos falta una **Shell** como **root**, la cual podemos conseguir fácilmente con el siguiente comando:
 
@@ -114,6 +114,6 @@ Ya con esto podríamos conseguir el **root** flag:
 
 ![9- flag root.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/18.png)
 
-**¡Y con esto habremos hecho nuestro el sistema de la máquina Cap de HTB!**
+**¡Y con esto habremos hecho nuestro el sistema de la máquina Cap!**
 
 ![Pwned!](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/19.png)
