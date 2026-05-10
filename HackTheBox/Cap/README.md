@@ -1,7 +1,7 @@
 # Introducción
-**Cap** es una máquina de dificultad Easy en Linux que se centra en la explotación de vulnerabilidades web comunes y el abuso de configuraciones incorrectas en el sistema operativo. El vector de ataque inicial consiste en identificar una vulnerabilidad de IDOR (Insecure Direct Object Reference) en un panel de gestión de red. A través de esta debilidad, es posible acceder a capturas de tráfico (PCAP) generadas por otros usuarios, las cuales contienen credenciales en texto claro de servicios inseguros.
+**Cap** es una máquina de dificultad Easy en Linux que se centra en la explotación de vulnerabilidades web comunes y el abuso de configuraciones incorrectas en el sistema operativo. El vector de ataque inicial consiste en identificar una vulnerabilidad de IDOR (Insecure Direct Object Reference) en un panel de gestión de red. A través de esta debilidad, es posible acceder a capturas de tráfico (PCAP) generadas por otros usuarios, las cuales contienen credenciales en texto plano de servicios inseguros.
 
-Una vez obtenida la intrusión mediante SSH, la escalada de privilegios se basa en la enumeración de Linux Capabilities. En este escenario, abusaremos de una capacidad inusual asignada al binario de Python, lo que nos permitirá manipular el UID del proceso para obtener una terminal como el usuario administrador de forma inmediata.
+Una vez obtenido el acceso mediante SSH, la escalada de privilegios se basa en la enumeración de Linux Capabilities. En este escenario, abusaremos de una capacidad inusual asignada al binario de Python, lo que nos permitirá manipular el UID del proceso para obtener una terminal como el usuario administrador de forma inmediata.
 
 ---
 
