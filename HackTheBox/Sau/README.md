@@ -73,7 +73,7 @@ $ sudo echo "10.129.35.98 facts.htb" >> /etc/hosts
 
 Una vez accedemos a la página, vemos que no hay nada interesante:
 
-![1](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/1.png)
+![1](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/1.png)
 
 Hagamos una enumeración de directorios con Ffuf para ver qué hallamos:
 
@@ -116,11 +116,11 @@ captcha                 [Status: 200, Size: 1086, Words: 5, Lines: 7, Duration: 
 
 Vemos que existe el directorio /admin, y que al dirigirnos a él nos encontramos con un panel de inicio de sesión, el cual nos permite crear una nueva cuenta y posteriormente iniciar sesión:
 
-![2](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/2.png)
+![2](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/2.png)
 
-![3](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/3.png)
+![3](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/3.png)
 
-![4](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/4.png)
+![4](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/4.png)
 
 ---
 
@@ -180,11 +180,11 @@ Aquí están los pasos para explotar esta vulnerabilidad de forma manual:
 
 1. Dirigirse a la sección de perfil de cuenta y presionar el botón para cambiar la contraseña:
 
-![5](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/5.png)
+![5](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/5.png)
 
 1. Interceptar la solicitud del cambio de contraseña con Buirp Suite:
 
-![6](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/6.png)
+![6](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/6.png)
 
 1. Agregar el siguiente parámetro al final de la solicitud POST:
 
@@ -192,18 +192,18 @@ Aquí están los pasos para explotar esta vulnerabilidad de forma manual:
 &password[role]=admin
 ```
 
-![7](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/7.png)
+![7](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/7.png)
 
 Una vez hayamos reenviado la solicitud y refrescado la página, nuestra cuenta tendrá el rol de admin:
 
-![8](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/8.png)
+![8](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/8.png)
 
 Navegando más como administrador a través de la web, encontramos información de acceso para AWS S3.
 
 > Amazon S3 (Simple Storage Service) es un servicio de almacenamiento de objetos en la nube, gestionado por AWS, diseñado para guardar cualquier cantidad de datos de forma segura, duradera y escalable.
 > 
 
-![9](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/9.png)
+![9](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/9.png)
 
 Vamos a hacer uso de la herramienta oficial aws cli para acceder a esta instancia de S3 en el objetivo:
 
@@ -341,7 +341,7 @@ User trivia may run the following commands on facts:
 
 Haciendo una búsqueda en [GTFOBins](https://gtfobins.org/), vemos que una función de facter permite ejecutar el primer archivo .rb dentro del directorio que le indiquemos. Esto lo podríamos usar para obtener una shell como root:
 
-![10](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/10.png)
+![10](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/10.png)
 
 Sabiendo esto, para escalar privilegios lo primero que haremos será crear un script en Ruby dentro del directorio personal de trivia, el cual contendrá el comando que nos dará la terminal como root:
 
@@ -359,4 +359,4 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 
 **¡Y con esto habremos hecho nuestro el sistema de Facts!**
-![Pwned!](http://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/11.png)
+![Pwned!](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Sau/Capturas/11.png)
