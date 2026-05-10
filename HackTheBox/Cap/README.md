@@ -116,4 +116,4 @@ Ya con esto podríamos conseguir el **root** flag:
 
 **¡Y con esto habremos hecho nuestro el sistema de la máquina Cap de HTB!**
 
-![Pwned!](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/pwned.png)
+![Pwned!](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/19.png)
