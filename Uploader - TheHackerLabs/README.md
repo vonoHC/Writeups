@@ -4,7 +4,7 @@ Uploader es una máquina de dificultad Easy de The Hacker Labs enfocada en técn
 
 ---
 
-### **Reconocimiento**
+## **Reconocimiento**
 
 Como primer paso obtenemos la **IP** de la máquina objetivo y le realizamos un **ping,** de esta forma sabremos si está activa.
 
@@ -24,7 +24,7 @@ Vemos que es una página de subida de archivos, vamos a explorar:
 
 ---
 
-### Explotación
+## Explotación
 
 Encontramos un formulario de subida de archivos, intentemos subir una reverse shell:
 
@@ -98,7 +98,7 @@ En este punto podremos obtener la **user flag**:
 
 ---
 
-### Post-Explotación/Escalada de privilegios
+## Post-Explotación/Escalada de privilegios
 
 Llegó el momento de elevar privilegios, vamos a iniciar listando los comando que el usuario puede ejecutar como sudo con: `sudo -l`
 
