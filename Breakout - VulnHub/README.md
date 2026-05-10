@@ -1,5 +1,5 @@
 # Introducción
-Empire: Breakout es una máquina de dificultad media de VulnHub enfocada en técnicas de enumeración de servicios, análisis de aplicaciones web y escalada de privilegios en entornos Linux. En este Writeup se documentará paso a paso el proceso de explotación de la máquina, comenzando con la enumeración de servicios HTTP y SMB, el análisis de credenciales ocultas mediante Brainfuck y la obtención de acceso a través de Usermin. Posteriormente, se realizará reconocimiento interno del sistema y se aprovecharán capacidades especiales asignadas al binario **tar** para acceder a archivos restringidos y obtener privilegios de root.
+Empire: Breakout es una máquina de dificultad easy de VulnHub enfocada en técnicas de enumeración de servicios, análisis de aplicaciones web y escalada de privilegios en entornos Linux. En este Writeup se documentará paso a paso el proceso de explotación de la máquina, comenzando con la enumeración de servicios HTTP y SMB, el análisis de credenciales ocultas mediante Brainfuck y la obtención de acceso a través de Usermin. Posteriormente, se realizará reconocimiento interno del sistema y se aprovecharán capacidades especiales asignadas al binario **tar** para acceder a archivos restringidos y obtener privilegios de root.
 
 ---
 
