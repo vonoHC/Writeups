@@ -111,5 +111,6 @@ Encontramos el comando **tar**. Haciendo una breve búsqueda en gtfobins hallamo
 Ejecutando los comando mostrados ganaremos una shell como **root** y tendremos acceso a la **root flag**:
 
 ![25. rootflag.png](https://github.com/vonoHC/Writeups/blob/main/Uploader%20-%20TheHackerLabs/Capturas/24.png)
-
+![Pwned.png](https://github.com/vonoHC/Writeups/blob/main/Uploader%20-%20TheHackerLabs/Capturas/25.png)
 **¡Y con esto habremos hecho nuestro el sistema de la máquina Uploader de The Hacker Labs!**
+
