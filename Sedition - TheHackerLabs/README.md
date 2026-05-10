@@ -1,5 +1,5 @@
 # Introducción
-Sedition es una máquina de dificultad media de The Hacker Labs enfocada en técnicas de enumeración, obtención de credenciales y escalada de privilegios en entornos Linux. 
+Sedition es una máquina de dificultad Easy de The Hacker Labs enfocada en técnicas de enumeración, obtención de credenciales y escalada de privilegios en entornos Linux. 
 
 En este Writeup se documentará paso a paso el proceso de explotación de la máquina, comenzando con la enumeración de servicios SMB y SSH, el análisis de archivos y credenciales filtradas, el acceso a bases de datos MariaDB y el movimiento lateral entre usuarios, hasta finalmente conseguir privilegios de root aprovechando una configuración insegura de sudo sobre el binario `sed`.
 
