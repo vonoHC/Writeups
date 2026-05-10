@@ -1,8 +1,11 @@
-En este tutorial se explicará cómo resolver la máquina **Cap** de **HTB**.
+# Introducción
+**Cap** es una máquina de dificultad Easy en Linux que se centra en la explotación de vulnerabilidades web comunes y el abuso de configuraciones incorrectas en el sistema operativo. El vector de ataque inicial consiste en identificar una vulnerabilidad de IDOR (Insecure Direct Object Reference) en un panel de gestión de red. A través de esta debilidad, es posible acceder a capturas de tráfico (PCAP) generadas por otros usuarios, las cuales contienen credenciales en texto claro de servicios inseguros.
+
+Una vez obtenida la intrusión mediante SSH, la escalada de privilegios se basa en la enumeración de Linux Capabilities. En este escenario, abusaremos de una capacidad inusual asignada al binario de Python, lo que nos permitirá manipular el UID del proceso para obtener una terminal como el usuario administrador de forma inmediata.
 
 ---
 
-### Reconocimiento
+## Reconocimiento
 
 Como primer paso obtenemos la **IP** de la máquina objetivo y le realizamos un **ping,** de esta forma sabremos si está activa.
 
@@ -10,7 +13,7 @@ Como primer paso obtenemos la **IP** de la máquina objetivo y le realizamos un 
 
 **ping** nos devolvió una respuesta positiva, excelente!
 
-Ahora empezaremos con la etapa de reconocimiento, llevando a cabo un escaneo inicial con **nmap**. ****Estos son los parámetros que estaremos usando para ello:
+Ahora empezaremos con la etapa de reconocimiento, llevando a cabo un escaneo inicial con **nmap**. Estos son los parámetros que estaremos usando para ello:
 
 ```bash
 nmap (ip) -sS -Pn -vvv -p- --open --min-rate 5000 
@@ -56,9 +59,9 @@ Hallamos algo interesante. Al ingresar a la pestaña **Security Snapshot**, en l
 
 ---
 
-### Explotación
+## Explotación
 
-Ahora intentemos manipular el identificador ****en la URL colocando distintos números en el campo para ver si podemos ver otros archivos **.pcap** (**Insecure Direct Object Reference** (**IDOR**)).
+Ahora intentemos manipular el identificador en la URL colocando distintos números en el campo para ver si podemos ver otros archivos **.pcap** (**Insecure Direct Object Reference** (**IDOR**)).
 
 ![Screenshot 2025-08-06 161504.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/9.png)
 
@@ -96,7 +99,7 @@ getcap -r / 2>/dev/null
 
 ![4- getcap.png](https://github.com/vonoHC/Writeups/blob/main/HackTheBox/Cap/Capturas/15.png)
 
-Encontramos el binario de **python**, el cual tiene la capacidad especial **setuid**, la cual permite ejecutarlo con los permisos de **root**, por lo que podremos conseguir una shell como **root** a través de **python** con unos pocos comandos.
+Encontramos el binario de **python**, el cual tiene la capacidad especial **setuid**, la cual permite ejecutarlo con los permisos de **root**, por lo que podremos conseguir una shell como este usuario de forma automática, con unos pocos comandos.
 
 Ahora vamos a ejecutar **python** y cambiaremos el **suid** a **0**, lo cual es equivalente a **root**:
 
