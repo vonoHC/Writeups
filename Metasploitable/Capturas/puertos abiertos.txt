@@ -1,0 +1,9 @@
+Con el siguiente script podemos obtener todos los puertos abiertos de la maquina guardados en el archivo openPorts.txt para el escaneo exhaustivo que haremos posteriormente en nmap:
+
+cat openPorts.txt | grep -E "[1-9]" | head -n -2 | tail -n +5 | awk -F/ '{print $1}' | paste -sd, | xclip -selection clipboard
+
+
+Comando para el escaneo exhaustivo:
+
+nmap -p 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,3632,5432,5900,6000,6667,6697,8009,8180,8787,32966,33785,34219,42886 -sCV -Pn 192.168.5.143
+
