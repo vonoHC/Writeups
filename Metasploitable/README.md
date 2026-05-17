@@ -42,7 +42,7 @@ Ahora procedemos a ralizar el escaneo exhaustivo con el siguiente comando:
 ```bash
 nmap -p 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,3632,5432,5900,6000,6667,6697,8009,8180,8787,32966,33785,34219,42886 -sCV -Pn 192.168.5.143 -oN nmap.txt
 ```
-La salida del comando anterior nos proporciona informacion muy util sobre los servicios activos, ademas de posibles vulnerabilidades que podriamos explotar.
+La salida del comando anterior nos proporciona informacion muy util sobre los servicios activos, incluyendo posibles vulnerabilidades que podriamos explotar.
 
 ## Explotacion
 ### FTP
