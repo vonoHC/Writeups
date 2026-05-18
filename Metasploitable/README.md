@@ -15,7 +15,9 @@ Para la instalación de Metasploitable, accedemos al link de descarga para obten
 Una vez que hayamos descargado la maquina virtual, es momento de instalarla en nuestro hipervirtualizador preferido e iniciarla (para este ejemplo usare [**VMware**](https://www.vmware.com/)):
 
 Como primer paso para instalar la maquina virtual, presionamos el boton "Abrir una maquina virtual" y seleccionamos el archivo descargado:
+
 ![2](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/2.png)
+
 ![3](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/3.png)
 
 A partir de este momento, podemos iniciar Metasploitable y empezar a auditarla con nuestra maquina atacante.
@@ -29,7 +31,9 @@ Ahora que conocemos la IP de la maquina, podemos iniciar a escanear los puertos 
 ```bash
 nmap -p- 192.168.143 -oN openPorts.txt
 ```
+
 ![4](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/4.png)
+
 Como podemos ver hay una gran cantidad de puertos y servicios activos en Metasploitable, por esta razon es una excelente maquina para practicar. 
 
 Ya que sabemos que puertos estan abiertos, vamos a hacer un escaneo exhaustivo para ver exactamente que servicios (y cual version de estos) estan corriendo y si tienen alguna vulnerabilidad conocida.
@@ -73,11 +77,13 @@ Nos conectamos a la instancia de FTP del objetivo con un cualquier nombre de usu
 ftp 192.168.5.143
 ```
 ![5](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/5.png)
+
 Al iniciar sesion, notamos que la conexion se "paraliza" esto es porque el backdoor abrio una shell en el puerto 6200 del sistema victima y esta esperando por conexiones. Al conectarnos a la shell, ingresamos al sistema como root. Esto es porque el servicio FTP se ejecutaba con permisos del usuario administrador:
 ```bash
 nc 192.168.5.143 6200
 ```
 ![6](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/6.png)
+
 Y de esta forma habremos explotado Metasploitable a traves de FTP.
 
 ---
@@ -156,7 +162,9 @@ user:[uucp] rid:[0x3fc]
 Verdaderamente son muchos usuarios, pero entre todos estos existe uno que tiene como contraseña el mismo nombre, este es **msfadmin**.
 
 Ya que tenemos el conjunto de credenciales, podemos conectarnos al sistema a traves de SSH:
+
 ![7](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/7.png)
+
 > Antes de ejecutar el comando anterior tuve que ingresar lo siguiente al archivo **/etc/ssh/ssh_config**, esto es porque el SSH activo en Metasploitable es una version que utiliza algoritmos obsoletos para la comunicacion y mi sistema (y probablemente el tuyo) bloqueo las conexiones de forma predeterminada. 
 > ```bash
 > Host 192.168.5.143
@@ -165,12 +173,18 @@ Ya que tenemos el conjunto de credenciales, podemos conectarnos al sistema a tra
 > ```
 
 Al ejecutar el comando `id` podemos ver que no somos el usuario root, por lo que es momento de escalar privilegios. Listando los comandos ejecutables como root con `sudo -l`, vemos que podemos ejecutar cualquier comando con permisos de administrador. 
+
 ![8](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/8.png)
+
 Aunque se puede lograr la escalada de privilegios de formas mas sencillas, para este ejemplo usare Python como vector de PrivEsc. Para esto. ejecutamos una instancia de python privilegiada con el comando: `sudo /usr/bin/python`.
 
 Dentro de Python importamos la biblioteca `os`, y por ultimo llamamos una terminal con `os.system(/bin/bash)`:
+
 ![9](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/9.png)
+
 Y de esta forma habremos explotado Metasploitable a traves de SSH.
+
+
 
 
 
