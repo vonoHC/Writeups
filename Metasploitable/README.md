@@ -84,6 +84,7 @@ Y de esta forma habremos explotado Metasploitable a traves de FTP.
 ## SSH
 El escaneo de Nmap nos proporcionó esta información sobre la instancia de SSH activa en la máquina víctima:
 ```bash
+PORT      STATE SERVICE     VERSION
 22/tcp    open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
 | ssh-hostkey: 
 |   1024 60:0f:cf:e1:c0:5f:6a:74:d6:90:24:fa:c4:d5:6c:cd (DSA)
@@ -91,6 +92,7 @@ El escaneo de Nmap nos proporcionó esta información sobre la instancia de SSH 
 ```
 La version de SSH utilizada no es vulnerable, pero podriamos enumerar usuarios a traves de [RPC](https://learn.microsoft.com/en-us/windows/win32/rpc/rpc-start-page) (el cual esta corriendo en el puerto 111) para posteriormente intentar otras vias de ataques mejores dirigidos:
 ```bash
+PORT      STATE SERVICE     VERSION
 111/tcp   open  rpcbind     2 (RPC #100000)
 | rpcinfo: 
 |   program version    port/proto  service
