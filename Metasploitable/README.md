@@ -1,4 +1,4 @@
-# Introduccion
+# Introducción
 
 Metasploitable es una máquina virtual vulnerable diseñada específicamente para practicar pruebas de penetración y análisis de seguridad en entornos controlados. Fue creada por Rapid7 como una plataforma educativa que permite a estudiantes y profesionales de ciberseguridad identificar, explotar y comprender distintas vulnerabilidades reales presentes en sistemas y servicios mal configurados.
 
@@ -6,7 +6,7 @@ Esta máquina incluye aplicaciones desactualizadas, configuraciones inseguras y 
 
 En este Writeup, aprenderemos cómo realizar todos los procedimientos necesarios para comprometer Metasploitable, desde instalar la máquina virtual hasta explotar la mayoría de los servicios activos de la forma más manual posible.
 
-# Instalacion
+# Instalación
 Para la instalación de Metasploitable, accedemos al link de descarga para obtener la máquina:
 [**Metasploitable - SourceForge**](https://sourceforge.net/projects/metasploitable/)
 
@@ -48,7 +48,7 @@ nmap -p 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,3632,
 ```
 La salida del comando anterior nos proporciona información muy útil sobre los servicios activos, incluyendo posibles vulnerabilidades que podríamos explotar.
 
-# Explotacion
+# Explotación
 # FTP
 El escaneo de Nmap nos proporcionó esta información sobre la instancia de FTP activa en la máquina víctima:
 ```bash
@@ -183,6 +183,8 @@ Dentro de Python importamos la biblioteca `os`, y por último llamamos una termi
 ![9](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/9.png)
 
 Y de esta forma habremos explotado Metasploitable a través de SSH.
+
+
 
 
 
