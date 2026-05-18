@@ -185,7 +185,7 @@ Dentro de Python importamos la biblioteca `os`, y por último llamamos una termi
 Y de esta forma habremos explotado Metasploitable a través de SSH.
 
 # DNS
-En esta sección nos aprovecharemos del servicio DNS [(Domain Name Service)](https://www.cloudflare.com/es-es/learning/dns/what-is-dns/) para recolectar información en el objetivo, para posteriormente poder ingresar al sistema.
+En esta sección haremos uso del servicio DNS [(Domain Name Service)](https://www.cloudflare.com/es-es/learning/dns/what-is-dns/) para recolectar información en el objetivo, para posteriormente poder ingresar al sistema.
 
 
 
