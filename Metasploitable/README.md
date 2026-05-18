@@ -49,7 +49,7 @@ nmap -p 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,3632,
 La salida del comando anterior nos proporciona información muy útil sobre los servicios activos, incluyendo posibles vulnerabilidades que podríamos explotar.
 
 # Explotacion
-## FTP
+# FTP
 El escaneo de Nmap nos proporcionó esta información sobre la instancia de FTP activa en la máquina víctima:
 ```bash
 PORT      STATE SERVICE     VERSION
@@ -87,7 +87,7 @@ nc 192.168.5.143 6200
 Y de esta forma habremos explotado Metasploitable a través de FTP.
 
 ---
-## SSH
+# SSH
 El escaneo de Nmap nos proporcionó esta información sobre la instancia de SSH activa en la máquina víctima:
 ```bash
 PORT      STATE SERVICE     VERSION
