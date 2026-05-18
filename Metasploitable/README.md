@@ -90,7 +90,7 @@ PORT      STATE SERVICE     VERSION
 |   1024 60:0f:cf:e1:c0:5f:6a:74:d6:90:24:fa:c4:d5:6c:cd (DSA)
 |_  2048 56:56:24:0f:21:1d:de:a7:2b:ae:61:b1:24:3d:e8:f3 (RSA)
 ```
-La version de SSH utilizada no es vulnerable, pero podriamos enumerar usuarios a traves de [RPC](https://learn.microsoft.com/en-us/windows/win32/rpc/rpc-start-page) (el cual esta corriendo en el puerto 111) para posteriormente intentar otras vias de ataques mejores dirigidos:
+La versión de SSH utilizada no es vulnerable, pero podríamos enumerar usuarios a través de [RPC](https://learn.microsoft.com/en-us/windows/win32/rpc/rpc-start-page) (el cual está corriendo en el puerto 111) para posteriormente intentar otras vías de ataque mejores dirigidas:
 ```bash
 PORT      STATE SERVICE     VERSION
 111/tcp   open  rpcbind     2 (RPC #100000)
