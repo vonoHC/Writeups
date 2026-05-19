@@ -199,7 +199,7 @@ mkdir PUNTO_MONTAJE
 sudo mount -t IP:RUTA UBICACION_LOCAL
 ```
 ![11](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/11.png)
-Una vez dentro del sistema, podemos comprobar si las configuraciones en el NFS objetivo tienen la opción [no_root_squash](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/security_guide/s2-server-nfs-noroot) habilitada, cosa que nos permitiría actuar como root dentro del recurso compartido, por el simple hecho de ser root en nuestra máquina local. 
+Una vez dentro del sistema, podemos comprobar si el NFS objetivo tiene la opción [no_root_squash](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/security_guide/s2-server-nfs-noroot) habilitada, cosa que nos permitiría actuar como root dentro del recurso compartido, por el simple hecho de ser root en nuestra máquina local. 
 
 Esto lo comprobamos intentando leer el archivo [/etc/shadow](https://linuxize.com/post/etc-shadow-file/) del sistema de Metasploitable:
 ```bash
