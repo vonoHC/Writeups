@@ -7,20 +7,20 @@ Esta máquina incluye aplicaciones desactualizadas, configuraciones inseguras y 
 En este Writeup, aprenderemos cómo realizar todos los procedimientos necesarios para comprometer Metasploitable, desde instalar la máquina virtual hasta explotar la mayoría de los servicios activos de la forma más manual posible.
 
 # Instalación
-Para la instalación de Metasploitable, accedemos al link de descarga para obtener la máquina:
+Para la descarga de Metasploitable, accedemos al link para obtener la máquina virtual:
 [**Metasploitable - SourceForge**](https://sourceforge.net/projects/metasploitable/)
 
 ![1](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/1.png)
 
 Una vez que hayamos descargado la máquina virtual, es momento de instalarla en nuestro hipervirtualizador preferido e iniciarla (para este ejemplo usaré [**VMware**](https://www.vmware.com/)):
 
-Como primer paso para instalar la máquina virtual, presionamos el botón "Abrir una máquina virtual" y seleccionamos el archivo descargado:
+Para instalar la máquina virtual, presionamos el botón "Abrir una máquina virtual" y seleccionamos el archivo descargado:
 
 ![2](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/2.png)
 
 ![3](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/3.png)
 
-A partir de este momento, podemos iniciar Metasploitable y empezar a auditarla con nuestra máquina atacante.
+A partir de este momento, podemos iniciar Metasploitable y empezar a auditarla a través de nuestra máquina atacante.
 
 # Reconocimiento
  En caso de que no sepamos cuál es la dirección IP de la máquina, podemos usar nmap para escanear la red y distinguir nuestro objetivo con el siguiente comando (En mi caso la red es 192.168.0/24):
