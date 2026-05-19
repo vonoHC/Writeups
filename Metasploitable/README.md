@@ -242,7 +242,7 @@ telnetd:*:14715:0:99999:7:::
 proftpd:!:14727:0:99999:7:::
 statd:*:15474:0:99999:7:::
 ```
-Confirmamos que podemos actuar como root en el recurso compartido. Es momento de obtener una shell como el usuario root. Para lograr esto, nos aprovecharemos de los [cronjobs](https://cloud.donweb.com/guia-completa-de-cron-job-en-linux-para-principiantes-en-5-pasos/), para agendar una tarea automática que tenga como función crear una shell inversa para conectarnos al sistema.
+Confirmamos que podemos actuar como root dentro del recurso compartido. Es momento de obtener una shell como el usuario root. Para lograr esto, nos aprovecharemos de los [cronjobs](https://cloud.donweb.com/guia-completa-de-cron-job-en-linux-para-principiantes-en-5-pasos/), para agendar una tarea automática que cree una shell inversa para conectarnos al sistema.
 
 Para lograr esto debemos crear un cronjob dentro del directorio `/etc/cron.d` y escribir el siguiente payload dentro del archivo:
 ```bash
