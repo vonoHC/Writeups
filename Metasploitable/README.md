@@ -23,7 +23,7 @@ Para instalar la máquina virtual, presionamos el botón "Abrir una máquina vir
 A partir de este momento, podemos iniciar Metasploitable y empezar a auditarla a través de nuestra máquina atacante.
 
 # Reconocimiento
- En caso de que no sepamos cuál es la dirección IP de la máquina, podemos usar nmap para escanear la red y distinguir nuestro objetivo con el siguiente comando (En mi caso la red es 192.168.0/24):
+ En caso de que no sepamos cuál es la dirección IP de la máquina, podemos usar nmap para escanear la red y distinguir a nuestro objetivo con el siguiente comando (En mi caso la red es 192.168.0/24):
  ```bash
 nmap -sn 192.168.0/24
 ```
