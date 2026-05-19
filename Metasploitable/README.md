@@ -34,7 +34,7 @@ nmap -p- IP -oN openPorts.txt
 
 ![4](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/4.png)
 
-Como podemos ver hay una gran cantidad de puertos y servicios activos en Metasploitable, por esta razon es una excelente maquina para practicar. 
+Como podemos ver, hay una gran cantidad de puertos y servicios activos en Metasploitable; por esta razón, es una excelente máquina para practicar. 
 
 Ya que sabemos qué puertos están abiertos, vamos a hacer un escaneo exhaustivo para ver exactamente qué servicios (y qué versión de estos) están corriendo y si tienen alguna vulnerabilidad conocida.
 
@@ -190,7 +190,9 @@ PORT      STATE SERVICE     VERSION
 2049/tcp  open  nfs         2-4 (RPC #100003)
 ```
 Podemos enumerar los recursos que el objetivo está compartiendo a través de NFS con el comando `showmount -e IP`
+
 ![10](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/10.png)
+
 Como se puede observar en la salida, Metasploitable está compartiendo todo el sistema a través del directorio raíz. Montar este recurso nos daría acceso a todos los archivos dentro del objetivo.
 
 Para montar el recurso, primero debemos crear una carpeta que sirva como punto de montaje, y posteriormente usar el comando `mount` para montarlo allí:
@@ -199,6 +201,7 @@ mkdir PUNTO_MONTAJE
 sudo mount -t IP:RUTA UBICACION_LOCAL
 ```
 ![11](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/11.png)
+
 Una vez dentro del sistema, podemos comprobar si el NFS objetivo tiene la opción [no_root_squash](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/security_guide/s2-server-nfs-noroot) habilitada, cosa que nos permitiría actuar como root dentro del recurso compartido, por el simple hecho de ser root en nuestra máquina local. 
 
 Esto lo comprobamos intentando leer el archivo [/etc/shadow](https://linuxize.com/post/etc-shadow-file/) del sistema de Metasploitable:
