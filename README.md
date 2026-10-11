@@ -20,21 +20,21 @@ Cada Writeup documenta paso a paso el proceso completo de explotación de la má
 
 # 📂 Contenido del repositorio
 
-## 🟩 Hack The Box
+## Hack The Box
 
 * Cap
 * Facts
 
-## 🟦 TryHackMe
+## TryHackMe
 
 * EasyCTF
 
-## 🟨 The Hacker Labs
+## The Hacker Labs
 
 * Sedition
 * Uploader
 
-## 🟧 VulnHub
+## VulnHub
 
 * Basic Pentesting: 1
 * Empire: Breakout
@@ -44,7 +44,7 @@ Cada Writeup documenta paso a paso el proceso completo de explotación de la má
   
 ---
 
-# 🧰 Herramientas utilizadas
+# Herramientas utilizadas
 
 Algunas de las herramientas empleadas en estos laboratorios:
 
