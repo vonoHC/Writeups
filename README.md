@@ -70,7 +70,7 @@ Todo el contenido de este repositorio tiene fines educativos y de práctica en e
 
 ---
 
-# 👨‍💻 Autor
+# Autor
 
 Virgilio Herrera
 
